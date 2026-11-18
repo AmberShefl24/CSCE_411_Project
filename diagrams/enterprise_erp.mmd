@@ -1,0 +1,26 @@
+erDiagram
+    WAREHOUSE {
+        int warehouse_id PK
+        string warehouse_code UK
+        string location
+    }
+    SUPPLIER {
+        int supplier_id PK
+        string tax_id UK
+        string contact_email UK
+    }
+    INVENTORY_ITEM {
+        int item_id PK
+        string sku UK
+        string barcode UK
+        int warehouse_id FK
+        int supplier_id FK
+    }
+    SHIPMENT {
+        int shipment_id PK
+        string tracking_number UK
+        int warehouse_id FK
+    }
+    WAREHOUSE ||--o{ INVENTORY_ITEM : "stores (1:M)"
+    SUPPLIER ||--o{ INVENTORY_ITEM : "supplies (1:M)"
+    WAREHOUSE ||--o{ SHIPMENT : "dispatches (1:M)"

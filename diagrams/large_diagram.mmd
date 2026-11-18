@@ -1,0 +1,79 @@
+erDiagram
+    CUSTOMER {
+        int customer_id PK
+        string email UK
+        string phone_number UK
+        string full_name
+        datetime created_at
+    }
+    ADDRESS {
+        int address_id PK
+        int customer_id FK
+        string street_address
+        string city
+        string postal_code
+    }
+    MERCHANT {
+        int merchant_id PK
+        string business_reg_number UK
+        string support_email UK
+        string store_name
+    }
+    PRODUCT {
+        int product_id PK
+        string sku UK
+        string barcode UK
+        int merchant_id FK
+        float base_price
+    }
+    WAREHOUSE {
+        int warehouse_id PK
+        string facility_code UK
+        string region_code
+        string manager_name
+    }
+    INVENTORY {
+        int inventory_id PK
+        int product_id FK
+        int warehouse_id FK
+        int stock_level
+    }
+    ORDER {
+        int order_id PK
+        string order_reference UK
+        int customer_id FK
+        string order_status
+        datetime order_date
+    }
+    ORDER_ITEM {
+        int order_item_id PK
+        int order_id FK
+        int product_id FK
+        int quantity
+        float unit_price
+    }
+    PAYMENT {
+        int payment_id PK
+        string transaction_reference UK
+        int order_id FK
+        float amount_paid
+        string gateway_status
+    }
+    SHIPMENT {
+        int shipment_id PK
+        string tracking_number UK
+        int order_id FK
+        int warehouse_id FK
+        string carrier_name
+    }
+    
+    CUSTOMER ||--o{ ADDRESS : "has (1:M)"
+    MERCHANT ||--o{ PRODUCT : "sells (1:M)"
+    WAREHOUSE ||--o{ INVENTORY : "contains (1:M)"
+    PRODUCT ||--o{ INVENTORY : "stocked_in (1:M)"
+    CUSTOMER ||--o{ ORDER : "places (1:M)"
+    ORDER ||--|{ ORDER_ITEM : "contains (1:M)"
+    PRODUCT ||--o{ ORDER_ITEM : "ordered_in (1:M)"
+    ORDER ||--|| PAYMENT : "settled_by (1:1)"
+    ORDER ||--o{ SHIPMENT : "fulfilled_by (1:M)"
+    WAREHOUSE ||--o{ SHIPMENT : "dispatches (1:M)"

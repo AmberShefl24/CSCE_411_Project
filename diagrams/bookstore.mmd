@@ -1,0 +1,12 @@
+erDiagram
+    BOOK {
+        int book_id PK
+        string isbn UK
+        string title
+    }
+    AUTHOR {
+        int author_id PK
+        string email UK
+        string name
+    }
+    BOOK ||--o{ AUTHOR : "written_by (1:M)"
